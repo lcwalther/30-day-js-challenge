@@ -100,19 +100,19 @@
     let isFirstValueClicked
     let entriesNodeList = document.querySelectorAll('input')
     let entriesArray = Array.from(entriesNodeList)
-    entriesArray.forEach((entry, index) => entry.addEventListener('click', () => handleClick(index)))
+    entriesArray.forEach((entry, index) => entry.addEventListener('click', () => handleClick()))
 
-    function handleClick(index) {
+    function handleClick() {
       let entriesArrayChecked = entriesArray.map(entry => entry.checked)
       let areTwoEntriesClicked = entriesArrayChecked.filter(entry => entry === true).length === 2
-
+      let indexOfFirstTrue
+      let indexOfSecondTrue
       if (areTwoEntriesClicked && isShiftPressed) {
-        console.log('tada') //set all entries between the two trues to true
-        entriesArray.map(entry => entry.checked = true)
-      } else {
-        console.log(entriesArrayChecked)
-        let hasOneClicked = entriesArrayChecked.filter(entry => entry === true).length === 1
-        console.log('hasoneclicked', hasOneClicked)
+        indexOfFirstTrue = entriesArrayChecked.indexOf(true)
+        indexOfSecondTrue = entriesArrayChecked.lastIndexOf(true) + 1
+        entriesArrayChecked.fill(true, indexOfFirstTrue, indexOfSecondTrue)
+        entriesArray.map((entry, index) => entriesArrayChecked[index] === true ? entry.checked = true :
+          null)
       }
     }
 
@@ -122,10 +122,8 @@
     function checkIfShiftPressed(event) {
       if (event.keyCode === 16) {
         isShiftPressed = true
-        console.log(isShiftPressed)
       } else {
         isShiftPressed = false
-        console.log(isShiftPressed)
       }
     }
   </script>
