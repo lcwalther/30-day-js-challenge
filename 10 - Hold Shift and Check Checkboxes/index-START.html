@@ -100,14 +100,14 @@
     let isFirstValueClicked
     let entriesNodeList = document.querySelectorAll('input')
     let entriesArray = Array.from(entriesNodeList)
-    entriesArray.forEach((entry, index) => entry.addEventListener('click', () => handleClick()))
+    entriesArray.forEach(entry => entry.addEventListener('click', () => handleClick()))
 
     function handleClick() {
       let entriesArrayChecked = entriesArray.map(entry => entry.checked)
-      let areTwoEntriesClicked = entriesArrayChecked.filter(entry => entry === true).length === 2
+      let isSecondEntryClicked = entriesArrayChecked.filter(entry => entry === true).length === 2
       let indexOfFirstTrue
       let indexOfSecondTrue
-      if (areTwoEntriesClicked && isShiftPressed) {
+      if (isShiftPressed && isSecondEntryClicked) {
         indexOfFirstTrue = entriesArrayChecked.indexOf(true)
         indexOfSecondTrue = entriesArrayChecked.lastIndexOf(true) + 1
         entriesArrayChecked.fill(true, indexOfFirstTrue, indexOfSecondTrue)
@@ -116,13 +116,18 @@
       }
     }
 
-    window.onkeydown = checkIfShiftPressed;
     let isShiftPressed
+    window.onkeydown = checkIfShiftPressed;
+    window.onkeyup = checkIfShiftReleased;
 
     function checkIfShiftPressed(event) {
       if (event.keyCode === 16) {
         isShiftPressed = true
-      } else {
+      }
+    }
+
+    function checkIfShiftReleased(event) {
+      if (event.keyCode === 16) {
         isShiftPressed = false
       }
     }
