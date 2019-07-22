@@ -104,7 +104,7 @@
 
     function handleClick() {
       let entriesArrayChecked = entriesArray.map(entry => entry.checked)
-      let isSecondEntryClicked = entriesArrayChecked.filter(entry => entry === true).length === 2
+      let isSecondEntryClicked = entriesArrayChecked.filter(entry => entry === true).length > 1
       let indexOfFirstTrue
       let indexOfSecondTrue
       if (isShiftPressed && isSecondEntryClicked) {
