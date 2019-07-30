@@ -3,6 +3,7 @@ const player = document.querySelector('.player')
 const video = player.querySelector('.viewer')
 const progress = player.querySelector('.progress')
 const progressBar = player.querySelector('.progress__filled')
+const progressText = player.querySelector('.progress__text')
 
 const toggle = player.querySelector('.toggle')
 const ranges = player.querySelectorAll('.player__slider')
@@ -14,11 +15,6 @@ let isPressingProgressBar = false
 
 /* Build our functions */
 function togglePlay() {
-  // if (video.paused) {
-  //   video.play()
-  // } else {
-  //   video.pause()
-  // }
   const method = video.paused ? 'play' : 'pause'
   video[method]()
 }
@@ -29,8 +25,6 @@ function updateButton() {
 }
 
 function skip() {
-  console.log(this.dataset.skip)
-  console.log(video.currentTime)
   video.currentTime += parseFloat(this.dataset.skip)
 }
 
@@ -43,11 +37,19 @@ function handleChangeUpdate(e) {
 function handleProgress() {
   const percent = (video.currentTime / video.duration) * 100
   progressBar.style.flexBasis = `${percent}%`
+  progressText.style.left = `${(percent / 100) * video.offsetWidth}px`
+  progressText.innerHTML = `${fmtMSS(Math.round(video.currentTime))} / ${fmtMSS(
+    Math.round(video.duration)
+  )}`
 }
 
 function scrub(e) {
   const scrubTime = (e.offsetX / progress.offsetWidth) * video.duration
   video.currentTime = scrubTime
+}
+
+function fmtMSS(s) {
+  return (s - (s %= 60)) / 60 + (9 < s ? ':' : ':0') + s
 }
 
 /* Hook up the event listeners */
