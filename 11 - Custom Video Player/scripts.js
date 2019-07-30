@@ -14,6 +14,12 @@ let isPressing = false
 let isPressingProgressBar = false
 
 /* Build our functions */
+function resetProgressText() {
+  progressText.innerHTML = `${fmtMSS(Math.round(video.currentTime))} / ${fmtMSS(
+    Math.round(video.duration)
+  )}`
+}
+
 function togglePlay() {
   const method = video.paused ? 'play' : 'pause'
   video[method]()
@@ -51,6 +57,8 @@ function scrub(e) {
 function fmtMSS(s) {
   return (s - (s %= 60)) / 60 + (9 < s ? ':' : ':0') + s
 }
+
+resetProgressText()
 
 /* Hook up the event listeners */
 video.addEventListener('click', togglePlay)
